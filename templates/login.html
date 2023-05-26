@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block title %}Log in{% endblock %}
+{% block content %}
+<h1>Log in</h1>
+<form action="{{ url_for('login') }}" method="post">
+  {{ form.username.label }}
+  {{ form.username() }}
+  {% if form.username.errors %}
+    <ul id="username-errors" class="errors">
+        {% for error in form.username.errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+  {% endif %}
+  {{ form.password.label }}
+  {{ form.password() }}
+  {% if form.password.errors %}
+    <ul id="password-errors" class="errors">
+        {% for error in form.password.errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+  {% endif %}
+  <button type="submit">Log in</button>
+</form>
+{% endblock %}
