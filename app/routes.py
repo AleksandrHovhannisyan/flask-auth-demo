@@ -1,5 +1,5 @@
 from flask import redirect, request, render_template, url_for, flash
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_required
 from app import app, database
 from app.forms import LoginForm, RegistrationForm
 from app.models import User
@@ -11,10 +11,9 @@ def index():
     return render_template("index.html")
 
 @app.route("/dashboard", methods=["GET"])
+@login_required
 def dashboard():
-    if current_user.is_authenticated:
-        return render_template("dashboard.html", user=current_user)
-    return redirect(url_for("login"))
+    return render_template("dashboard.html", user=current_user)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
