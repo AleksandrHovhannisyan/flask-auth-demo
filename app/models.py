@@ -14,8 +14,8 @@ class User(UserMixin, database.Model):
         password_hash = hashpw(password_encoded, password_salt)
         self.password_hash = password_hash
 
-    def check_password(self, password_hash):
-        return checkpw(self.password_hash, password_hash)
+    def check_password(self, password):
+        return checkpw(password, self.password_hash)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)

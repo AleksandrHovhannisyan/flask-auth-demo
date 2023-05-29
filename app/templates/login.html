@@ -3,6 +3,7 @@
 {% block content %}
 <h1>Log in</h1>
 <form action="{{ url_for('login') }}" method="post">
+  {{ form.csrf_token }}
   {{ form.username.label }}
   {{ form.username() }}
   {% if form.username.errors %}
@@ -21,6 +22,9 @@
         {% endfor %}
     </ul>
   {% endif %}
+  {{ form.remember_me.label }}
+  {{ form.remember_me() }}
   <button type="submit">Log in</button>
 </form>
+<p>Or <a href="{{ url_for('register') }}">create a new account</a>.</p>
 {% endblock %}
