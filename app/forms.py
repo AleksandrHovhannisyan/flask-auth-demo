@@ -6,6 +6,7 @@ from app.models import User
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired()], render_kw={"autocomplete": "name", "aria-describedby": "username-errors"})
     password = PasswordField("Password", validators=[InputRequired()], render_kw={"autocomplete": "new-password", "aria-describedby": "password-errors"})
+    # For persistent remember-me cookie to restore session cookie after it expires
     remember_me = BooleanField('Remember Me')
 
     def validate_username(self, username):
