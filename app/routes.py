@@ -13,7 +13,7 @@ def index():
 @app.route("/dashboard", methods=["GET"])
 @login_required
 def dashboard():
-    return render_template("dashboard.html", user=current_user)
+    return render_template("dashboard.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
