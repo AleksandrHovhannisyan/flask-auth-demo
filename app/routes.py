@@ -1,8 +1,13 @@
 from flask import redirect, request, render_template, url_for, flash
 from flask_login import current_user, login_user, logout_user, login_required
-from app import app, database
+from app import app, database, login
 from app.forms import LoginForm, RegistrationForm
 from app.models import User
+
+# Used by any login_required handler
+@login.unauthorized_handler
+def handle_unauthorized_request():
+    return redirect(url_for("login", next=request.endpoint))
 
 @app.route("/", methods=["GET"])
 def index():
@@ -25,7 +30,10 @@ def login():
     if request.method == "POST" and form.validate():
         user = User.query.filter_by(username=form.username.data).first()
         login_user(user, remember=form.remember_me.data)
-        return redirect(url_for("dashboard"))
+        # This will get set if, for example, a user tries to navigate to a login_required view
+        # in an unauthenticated state: https://stackoverflow.com/a/57534601/5323344
+        next = request.args.get("next")
+        return redirect(next or url_for("dashboard"))
     # Normal GET or POST with errors
     return render_template("login.html", form=form)
 
